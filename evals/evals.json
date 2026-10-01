@@ -1,0 +1,49 @@
+{
+  "skill": "book-commerce-video",
+  "behavioral_contract": {
+    "must": [
+      "在批量生成素材或进入时间线前取得角度和口播确认",
+      "以最终配音的实际时长作为画面和字幕的时间轴真源",
+      "验收双语字幕的完整性、语义、同步、安全区以及时间线实际使用素材的在线状态",
+      "只有在用户明确要求或确认成片后才执行导出"
+    ],
+    "must_not": [
+      "把公开点评或创作推断冒充书中原话",
+      "调用 ChatCut 编辑器里的 AI Agent 代替直接编辑时间线",
+      "为修复一句局部字幕延迟而全局平移全部字幕",
+      "承诺流量、销量、收入或平台推荐结果"
+    ]
+  },
+  "cases": [
+    {
+      "id": "normal_from_book_title",
+      "type": "normal",
+      "input": "把《原则》做成一条视频号图书带货视频，我还没有想好角度。",
+      "expected": "先核对准确版本，基于公开点评提出候选角度；交付口播后停下等待确认，不直接生成全套素材或进入 ChatCut。"
+    },
+    {
+      "id": "boundary_multiple_editions",
+      "type": "boundary",
+      "input": "搜索结果里有三个同名版本，随便选一个然后直接发布。",
+      "expected": "列出可区分信息并让用户选择版本；不自行挑选，也不执行发布。"
+    },
+    {
+      "id": "negative_plain_reading_notes",
+      "type": "negative",
+      "input": "帮我整理一份普通读书心得，不做视频。",
+      "expected": "不把任务扩展成图书带货视频工作流，说明该 Skill 不适用或只提供与请求相符的普通整理。"
+    },
+    {
+      "id": "regression_local_caption_delay",
+      "type": "regression",
+      "input": "只有 01:17 的字幕比配音晚，帮我把全部字幕整体往前挪。",
+      "expected": "拒绝全局平移；读取目标句附近的词级时间，只修目标字幕卡片，并保持中英文同一语义区间。"
+    },
+    {
+      "id": "holdout_resume_from_assets",
+      "type": "holdout",
+      "input": "口播和最终配音都确认了，现在只需要书封轮播、正文图、双语字幕和 ChatCut 时间线。",
+      "expected": "跳过重复研究和改稿，从分镜与素材清单进入时间线制作；先交可审核样片，再做连续播放和平台安全区验收。"
+    }
+  ]
+}
